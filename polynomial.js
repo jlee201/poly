@@ -50,13 +50,26 @@ exports.derivative = poly => {
 }
 
 exports.evaluate = (poly, x) => {
+  if (process.argv.length < 3) {
+    console.error('Need deriv or eval subcommand');
+    process.exitCode(2);
+  } else if (process.argv[3] == 'deriv') {
+
+  } else if (process.argv[3] == 'eval') {
+
+  } else {
+    console.error('Subcommand must be eval or deriv only');
+    process.exitCode(3);
+  }
   let match = grammar.match(poly);
+//  let yolo = process.argv[2];
   if (!match.succeeded()) {
     throw new Error(match.message);
   }
   return semantics(match).eval()(x);
 }
 
+//Move this stuff in to the if block
 if (!module.parent) {
   let match = grammar.match(process.argv[2]);
   if (match.succeeded()) {
